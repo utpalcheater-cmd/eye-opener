@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif-bn: 'Noto Serif Bengali', 'Tiro Bangla', Georgia, serif;
+    --font-sans-bn: 'Noto Sans Bengali', system-ui, -apple-system, sans-serif;
+    --font-display-en: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  body {
+    font-family: var(--font-serif-bn);
+    color: #1c1917;
+    background-color: #fbf9f5;
+  }
+}
+
+.font-serif-bn {
+  font-family: var(--font-serif-bn);
+}
+
+.font-sans-bn {
+  font-family: var(--font-sans-bn);
+}
+
+.font-editorial {
+  font-family: var(--font-display-en);
+}
+
+/* Publication & Print Formatting */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 18mm 16mm 20mm 16mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-page-break {
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  .print-avoid-break {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .print-book-spread {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Custom Scrollbar for Editorial aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1ede4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6cebe;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a89f91;
+}

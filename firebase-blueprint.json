@@ -1,0 +1,71 @@
+{
+  "entities": {
+    "Article": {
+      "title": "Article",
+      "description": "An essay or column from the anthology",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 300 },
+        "subtitle": { "type": "string", "maxLength": 500 },
+        "category": { "type": "string", "maxLength": 100 },
+        "year": { "type": "number" },
+        "publishedDate": { "type": "string", "maxLength": 100 },
+        "newspaperIssue": { "type": "string", "maxLength": 150 },
+        "originalUrl": { "type": "string", "maxLength": 500 },
+        "readingTimeMinutes": { "type": "number" },
+        "excerpt": { "type": "string", "maxLength": 1000 },
+        "leadDeck": { "type": "string", "maxLength": 1000 },
+        "paragraphs": { "type": "array" },
+        "pullQuote": { "type": "string", "maxLength": 500 },
+        "pullQuoteAttribution": { "type": "string", "maxLength": 200 },
+        "bookPageNumber": { "type": "number" },
+        "userId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "category", "year", "paragraphs", "bookPageNumber"]
+    },
+    "Bookmark": {
+      "title": "Bookmark",
+      "description": "A user's saved article in their personal reading shelf",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "articleId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "articleId", "userId"]
+    },
+    "EditorialSync": {
+      "title": "EditorialSync",
+      "description": "Synced Workspace events and export metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "service": { "type": "string", "maxLength": 64 },
+        "targetId": { "type": "string", "maxLength": 256 },
+        "targetUrl": { "type": "string", "maxLength": 1000 },
+        "title": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "service", "title"]
+    }
+  },
+  "firestore": {
+    "/articles/{articleId}": {
+      "schema": "Article",
+      "description": "Collection of columns and essays in the Nadim anthology"
+    },
+    "/users/{userId}/bookmarks/{bookmarkId}": {
+      "schema": "Bookmark",
+      "description": "Personal bookmarks of the user"
+    },
+    "/users/{userId}/syncs/{syncId}": {
+      "schema": "EditorialSync",
+      "description": "Google Workspace sync and export records"
+    }
+  }
+}

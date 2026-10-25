@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Public anthology essays and columns
+    match /articles/{articleId} {
+      allow read: if true;
+      allow create: if isSignedIn() && isValidId(articleId);
+      allow update, delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        request.auth.token.email == "utpalcheater@gmail.com"
+      );
+    }
+
+    // User bookmarks
+    match /users/{userId}/bookmarks/{bookmarkId} {
+      allow read, write: if isOwner(userId) && isValidId(userId) && isValidId(bookmarkId);
+    }
+
+    // User Workspace sync records (Slides, Sheets, Calendar, Drive)
+    match /users/{userId}/syncs/{syncId} {
+      allow read, write: if isOwner(userId) && isValidId(userId) && isValidId(syncId);
+    }
+  }
+}
